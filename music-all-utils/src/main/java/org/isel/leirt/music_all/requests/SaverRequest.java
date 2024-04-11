@@ -9,7 +9,7 @@ import static org.isel.leirt.music_all.Errors.TODO;
 
 public class SaverRequest implements Request {
     
-    public SaverRequest(Request req) {
+    public SaverRequest(HttpRequest req) {
        TODO("SaverRequest");
     }
     

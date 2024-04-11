@@ -6,7 +6,7 @@ import static org.isel.leirt.music_all.Errors.TODO;
 
 public class CountRequest implements Request {
    
-    public CountRequest(HttpRequest req) {
+    public CountRequest(Request req) {
         TODO("CountRequest");
     }
 

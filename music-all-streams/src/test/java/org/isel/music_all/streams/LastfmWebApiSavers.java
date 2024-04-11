@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LastfmWebApiSavers {
     @Test
     public void searchForArtistsNamedDavid(){
-        Request req = new SaverRequest(new HttpRequest());
+        var req = new SaverRequest(new HttpRequest());
         LastFmWebApi api = new LastFmWebApi(req);
         var artists  =
             range(1,10)
@@ -30,7 +30,7 @@ public class LastfmWebApiSavers {
     
     @Test
     public void getStingInfo() {
-        Request req = new HttpRequest();
+        var req = new SaverRequest(new HttpRequest());
         LastFmWebApi api = new LastFmWebApi(req);
         List<ArtistDto> artists = api.searchArtist("Sting", 1);
         ArtistDto sting = artists.get(0);
@@ -42,7 +42,7 @@ public class LastfmWebApiSavers {
     
     @Test
     public void getTopAlbumsFromMuse(){
-        Request req = new HttpRequest();
+        var req = new SaverRequest(new HttpRequest());
         LastFmWebApi api = new LastFmWebApi(req);
         List<ArtistDto> artists = api.searchArtist("muse", 1);
         String mbid = artists.get(0).getMbid();
@@ -52,7 +52,7 @@ public class LastfmWebApiSavers {
     
     @Test
     public void getTracksForBlackHolesandRevelationsFromMuse(){
-        Request req = new HttpRequest();
+        var req = new SaverRequest(new HttpRequest());
         LastFmWebApi api = new LastFmWebApi(req);
         List<ArtistDto> artists = api.searchArtist("muse", 1);
         String mbid = artists.get(0).getMbid();
@@ -65,7 +65,7 @@ public class LastfmWebApiSavers {
     
     @Test
     public void getSomeColdplayAlbumsWithCache() {
-        var req = new CountRequest(new HttpRequest());
+        var req = new CountRequest(new SaverRequest(new HttpRequest()));
         LastFmWebApi api = new LastFmWebApi(req);
         List<ArtistDto> artists = api.searchArtist("Coldplay", 1);
         assertEquals(1, req.getCount());
@@ -88,7 +88,7 @@ public class LastfmWebApiSavers {
     
     @Test
     public void getAllColdplayAlbumsWithoutMBidNulls() {
-        var req = new CountRequest(new HttpRequest());
+        var req = new CountRequest(new SaverRequest(new HttpRequest()));
         LastFmWebApi api = new LastFmWebApi(req);
         List<ArtistDto> artists = api.searchArtist("Coldplay", 1);
         assertEquals(1, req.getCount());
@@ -106,7 +106,7 @@ public class LastfmWebApiSavers {
     
     @Test
     public void getStarlightFromBlackHolesAlbumOfMuse(){
-        Request req = new HttpRequest();
+        var req = new SaverRequest(new HttpRequest());
         LastFmWebApi api = new LastFmWebApi(req);
         List<ArtistDto>  artists = api.searchArtist("muse", 1);
         String mbid = artists.get(0).getMbid();
