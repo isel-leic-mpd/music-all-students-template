@@ -1,0 +1,6 @@
+// To declare projects as part of a multi-project build use the 'include' method
+rootProject.name = 'music-all-students-template'
+include 'music-all-utils'
+include 'music-all-streams'
+
+
