@@ -34,20 +34,36 @@ package org.isel.music_all;
 import org.isel.leirt.music_all.queries.PipeIterable;
 import org.junit.jupiter.api.Test;
 
+import static java.util.stream.Collectors.toList;
 import static org.isel.leirt.music_all.queries.PipeIterable.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static java.lang.System.out;
 
 
 public class PipeIterableTests {
-  
-
+    @Test
+    public void testGenerate() {
+        int[] next = {2};
+        Supplier<Integer> si = () -> {
+            int curr = next[0];
+            next[0] += 2;
+            return curr;
+        };
+        PipeIterable<Integer> nrs =
+            generate(si)
+            .limit(10);
+        
+        var expected = List.of(2,4,6,8,10,12,14,16,18,20);
+        assertEquals(expected, nrs.toList());
+    }
+    
+    
     @Test
     public void testSkip(){
         List<Integer> nrs = List.of(1, 2, 3, 4, 5, 6, 7, 8);
@@ -65,21 +81,17 @@ public class PipeIterableTests {
     }
     
     @Test
-    public void testGenerate(){
-        int[] next = {2};
-        Supplier<Integer> si = () -> {
-             int curr = next[0];
-             next[0] += 2;
-             return curr;
-        };
-        PipeIterable<Integer> nrs =
-            generate(si)
-            .limit(10);
+    public void testFirstFilterMapNrs() throws Throwable{
         
-        var expected = List.of(2,4,6,8,10,12,14,16,18,20);
-        assertEquals(expected, nrs.toList());
+        PipeIterable<Integer> nrs = iterate(1, n -> n + 1);
+        Optional<Integer> first =
+            nrs.map( n -> n * n).filter(n -> n > 3).first();
+        
+        if (!first.isPresent()) fail("first returning no value!");
+        int val = first.get();
+        assertEquals(4, val);
     }
-
+    
     @Test
     public void testMap(){
         var words = List.of("super", "isel", "ola", "fcp");
@@ -87,6 +99,22 @@ public class PipeIterableTests {
             of(words).map(w -> w.length()).toList();
         var expected = List.of(5, 4, 3, 3);
         assertEquals(expected, actual);
+    }
+    
+    private List<Integer> chars(String s) {
+        return s.chars().boxed().collect(Collectors.toList());
+    }
+    
+    @Test
+    public void testFlatMap(){
+        var words = List.of("super", "isel", "ola", "slb");
+        var actual =
+            of(words)
+            .flatMap(w -> chars(w))
+            .filter(c -> c == 's')
+            .count();
+        
+        assertEquals(3, actual);
     }
 
     @Test
@@ -142,15 +170,5 @@ public class PipeIterableTests {
         assertEquals(lst.get(lst.size()-1), m);
     }
     
-    @Test
-    public void testFirstFilterMapNrs() throws Throwable{
-        
-        PipeIterable<Integer> nrs = iterate(1, n -> n + 1);
-        Optional<Integer> first =
-            nrs.map( n -> n * n).filter(n -> n > 3).first();
-       
-        if (!first.isPresent()) fail("first returning no value!");
-        int val = first.get();
-        assertEquals(4, val);
-    }
+  
 }

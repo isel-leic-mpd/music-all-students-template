@@ -10,8 +10,6 @@ import java.io.*;
 import java.net.URL;
 import java.util.List;
 
-import static org.isel.leirt.music_all.queries.PipeIterable.*;
-
 
 public class LastFmWebApi {
     public static final int PAGE_SIZE = 50;

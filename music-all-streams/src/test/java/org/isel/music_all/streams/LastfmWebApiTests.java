@@ -55,7 +55,7 @@ public class LastfmWebApiTests {
     
     @Test
     public void searchForArtistsNamedDavid(){
-        Request req = new MockRequest();
+        Request req = new HttpRequest();
         LastFmWebApi api = new LastFmWebApi(req);
         var artists  =
             range(1,10)
