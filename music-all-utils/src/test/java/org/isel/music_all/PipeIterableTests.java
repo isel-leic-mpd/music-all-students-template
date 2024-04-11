@@ -81,6 +81,15 @@ public class PipeIterableTests {
     }
     
     @Test
+    public void testTakeWhile(){
+        var nrs = List.of(1,3,5,7,9,11,13,15,17,19);
+        var expected = List.of(1,3,5,7,9);
+        var lessThan10 = of(nrs).takeWhile(n -> n < 10);
+        assertEquals(5,lessThan10.count());
+        assertEquals(expected,lessThan10.toList());
+    }
+    
+    @Test
     public void testFirstFilterMapNrs() throws Throwable{
         
         PipeIterable<Integer> nrs = iterate(1, n -> n + 1);
