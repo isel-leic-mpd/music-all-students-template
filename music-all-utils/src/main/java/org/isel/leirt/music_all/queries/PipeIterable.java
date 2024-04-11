@@ -67,7 +67,34 @@ public interface PipeIterable<T> extends Iterable<T> {
     }
     
     default PipeIterable<T> takeWhile(Predicate<T> pred){
-        return () -> new IteratorTakeWhile<>(this,pred);
+        return () ->
+            new Iterator<T>() {
+                Optional<T> curr = Optional.empty();
+                Iterator<T> srcIt = iterator();
+                boolean done;
+                
+                @Override
+                public boolean hasNext() {
+                    if (curr.isPresent()) return true;
+                    if (!srcIt.hasNext() || done) return false;
+                    var t = srcIt.next();
+                    if (!pred.test(t)) {
+                        done = true;
+                        return false;
+                    }
+                    curr = Optional.of(t);
+                    return true;
+                }
+                
+                @Override
+                public T next() {
+                    if (!hasNext()) throw new IllegalStateException();
+                    var c = curr.get();
+                    curr = Optional.empty();
+                    return c;
+                }
+            };
+        
     }
     
     default PipeIterable<T> skipWhile(Predicate<T> pred) {
@@ -81,6 +108,7 @@ public interface PipeIterable<T> extends Iterable<T> {
             int curr = 0;
             Iterator<T> it = iterator();
             while(it.hasNext() && curr < nr) {
+                curr++;
                 it.next();
             }
             return it;

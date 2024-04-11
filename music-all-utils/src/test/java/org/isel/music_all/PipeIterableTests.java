@@ -110,6 +110,17 @@ public class PipeIterableTests {
         assertEquals(expected, actual);
     }
     
+    @Test
+    public void testFilter() {
+        
+        var  names = of( "Joao", "Carlos", "Jorge", "Luis");
+        
+        var jNames = names.filter(name -> name.startsWith("J"));
+        
+        assertEquals(2, jNames.count());
+        assertEquals(List.of("Joao", "Jorge"), jNames.toList());
+    }
+    
     private List<Integer> chars(String s) {
         return s.chars().boxed().collect(Collectors.toList());
     }
@@ -176,7 +187,7 @@ public class PipeIterableTests {
         var m = nrs.max(Integer::compare);
         m.ifPresent(out::println);
         assertTrue(m.isPresent());
-        assertEquals(lst.get(lst.size()-1), m);
+        assertEquals(lst.get(lst.size()-1), m.get());
     }
     
   
