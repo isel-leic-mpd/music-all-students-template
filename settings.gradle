@@ -2,5 +2,6 @@
 rootProject.name = 'music-all-students-template'
 include 'music-all-utils'
 include 'music-all-streams'
+include 'music-all-async'
 
 

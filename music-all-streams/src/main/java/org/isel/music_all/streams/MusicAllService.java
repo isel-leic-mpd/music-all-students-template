@@ -33,12 +33,12 @@ public class MusicAllService {
         TODO("getAlbums");
         return null;
     }
-/*
+ 
     public Stream<Album> getAlbumByName(String artistMbid, String name) {
         TODO("getAlbumByName");
         return null;
     }
-*/
+ 
     private Stream<Track> getAlbumTracks(String albumMbid) {
         TODO("getAlbumTracks");
         return null;
